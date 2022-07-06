@@ -1,6 +1,11 @@
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { authenticator, supabaseStrategy } from "../auth.server";
+import Navbar from "components/Navbar";
+
+export const action = async ({ request }) => {
+  await authenticator.logout(request, { redirectTo: "/" });
+};
 
 export const loader = async ({ request }) => {
   const session = await supabaseStrategy.checkSession(request, {
@@ -12,10 +17,14 @@ export const loader = async ({ request }) => {
   return json({ email: session });
 };
 
-export default function Home() {
+export default function Dashboard() {
+  const { email } = useLoaderData();
+  console.log(email);
   return (
-    <div>
-      <h1> Home</h1>
-    </div>
+    <main>
+      <Navbar />
+
+      <Outlet />
+    </main>
   );
 }

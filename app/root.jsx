@@ -6,9 +6,9 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import Navbar from "components/Navbar";
 
 import styles from "./tailwind.css";
-
 
 export const meta = () => ({
   charset: "utf-8",
@@ -27,7 +27,8 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="min-h-screen">
+        
         <Outlet />
         <ScrollRestoration />
         <Scripts />
@@ -36,3 +37,4 @@ export default function App() {
     </html>
   );
 }
+
