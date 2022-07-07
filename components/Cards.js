@@ -2,24 +2,30 @@
 import { useEffect, useState } from "react";
 
 // supabase
-import { supabase } from "../utils/supabaseClient";
+import { supabaseClient } from "app/supabase";
 
 // Icons
 import { LoadingSpinner } from "./Icons";
 
-export default function Cards({ id, title, year, category, classificao }) {
+export default function Cards({
+  id,
+  title,
+  year,
+  category,
+  classificao,
+  userId,
+}) {
   const [bookmarkedShowsId, setBookmarkedShowsId] = useState(new Set());
   const [bookmark, setBookmark] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  /*
   useEffect(() => {
     setIsLoading(true);
     const getData = async () => {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from("userfavoriteshows")
         .select("*")
-        .eq("user_id", session.user.id);
+        .eq("user_id", userId);
       if (error) {
         console.log(`Error: ${error}`);
       } else {
@@ -29,19 +35,19 @@ export default function Cards({ id, title, year, category, classificao }) {
       }
     };
 
-    session?.user.id ? getData() && setIsLoading(false) : setIsLoading(true);
-  }, [session]);
-  */
+    getData();
+    setIsLoading(false);
+  }, [userId]);
 
   // console.log(`user: ${session?.user.id ?? "no user"}`);
 
   // If user click on the bookmark button, add the show to the user's bookmarked shows
   const addToBookmarkeds = async (id) => {
     setIsLoading(true);
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from("userfavoriteshows")
       .insert({
-        user_id: session.user.id,
+        user_id: userId,
         shows_id: id,
       })
       .single();
@@ -57,10 +63,10 @@ export default function Cards({ id, title, year, category, classificao }) {
   // If user click on the bookmark button, remove the show from the user's bookmarked shows
   const removeBookmarkeds = async (id) => {
     setIsLoading(true);
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from("userfavoriteshows")
       .delete()
-      .eq("user_id", session?.user.id)
+      .eq("user_id", userId)
       .eq("shows_id", id);
     if (error) {
       console.log(`Error: ${error}`);
@@ -99,7 +105,8 @@ export default function Cards({ id, title, year, category, classificao }) {
       <div className="relative h-28 md:h-36 lg:h-[174px]">
         <button
           onClick={() => handleBookmarked(id)}
-          className=" flex items-center right-2 top-2 absolute bg-darkBlue/50  w-8 h-8 rounded-full z-10 md:right-4 md:top-4">
+          className=" flex items-center right-2 top-2 absolute bg-darkBlue/50  w-8 h-8 rounded-full z-10 md:right-4 md:top-4"
+        >
           {isLoading ? (
             <LoadingSpinner color={"#FFF"} />
           ) : bookmarkedShowsId.has(id) === true || bookmark ? (
@@ -107,7 +114,8 @@ export default function Cards({ id, title, year, category, classificao }) {
               className=" mx-auto"
               width="12"
               height="14"
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="m10.518.75.399 12.214-5.084-4.24-4.535 4.426L.75 1.036l9.768-.285Z"
                 stroke="#FFF"
@@ -120,7 +128,8 @@ export default function Cards({ id, title, year, category, classificao }) {
               className=" mx-auto"
               width="12"
               height="14"
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="m10.518.75.399 12.214-5.084-4.24-4.535 4.426L.75 1.036l9.768-.285Z"
                 stroke="#FFF"
@@ -131,13 +140,11 @@ export default function Cards({ id, title, year, category, classificao }) {
           )}
         </button>
         <img
-          className="rounded "
-          objectFit="cover"
+          className="rounded"
           src={`https://kmzgkstraazrxkyxaejh.supabase.co/storage/v1/object/public/thumbnails/${changeImageSrc(
             changeImageSrc(title)
           )}/regular/medium.jpg`}
           alt={`${title} poster`}
-          layout="fill"
         />
       </div>
 

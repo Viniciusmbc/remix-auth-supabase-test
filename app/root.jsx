@@ -6,7 +6,6 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import Navbar from "components/Navbar";
 
 import styles from "./tailwind.css";
 
@@ -28,7 +27,6 @@ export default function App() {
         <Links />
       </head>
       <body className="min-h-screen">
-        
         <Outlet />
         <ScrollRestoration />
         <Scripts />

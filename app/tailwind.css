@@ -579,6 +579,18 @@ body {
   top: 0.5rem;
 }
 
+.bottom-10 {
+  bottom: 2.5rem;
+}
+
+.left-4 {
+  left: 1rem;
+}
+
+.bottom-4 {
+  bottom: 1rem;
+}
+
 .z-10 {
   z-index: 10;
 }
@@ -591,6 +603,16 @@ body {
 .mx-2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
+}
+
+.my-6 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .mt-6 {
@@ -613,24 +635,44 @@ body {
   margin-top: 0.25rem;
 }
 
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.ml-4 {
+  margin-left: 1rem;
+}
+
+.mb-14 {
+  margin-bottom: 3.5rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
 .flex {
   display: flex;
 }
 
-.h-8 {
-  height: 2rem;
-}
-
-.h-1\/4 {
-  height: 25%;
+.grid {
+  display: grid;
 }
 
 .h-28 {
   height: 7rem;
 }
 
+.h-8 {
+  height: 2rem;
+}
+
 .h-1 {
   height: 0.25rem;
+}
+
+.h-1\/4 {
+  height: 25%;
 }
 
 .min-h-screen {
@@ -647,6 +689,10 @@ body {
 
 .w-1 {
   width: 0.25rem;
+}
+
+.w-9\/12 {
+  width: 75%;
 }
 
 .max-w-md {
@@ -678,6 +724,10 @@ body {
   cursor: wait;
 }
 
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .flex-col {
   flex-direction: column;
 }
@@ -690,10 +740,18 @@ body {
   justify-content: space-between;
 }
 
+.gap-4 {
+  gap: 1rem;
+}
+
 .space-y-6 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
 }
 
 .rounded-md {
@@ -771,8 +829,8 @@ body {
   padding-right: 1rem;
 }
 
-.pt-6 {
-  padding-top: 1.5rem;
+.pl-4 {
+  padding-left: 1rem;
 }
 
 .text-2xl {
@@ -788,6 +846,11 @@ body {
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 
 .font-medium {
@@ -850,12 +913,16 @@ body {
     margin-top: auto;
   }
 
+  .md\:h-36 {
+    height: 9rem;
+  }
+
   .md\:h-\[95vh\] {
     height: 95vh;
   }
 
-  .md\:h-36 {
-    height: 9rem;
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .md\:flex-col {
@@ -878,5 +945,18 @@ body {
 @media (min-width: 1024px) {
   .lg\:h-\[174px\] {
     height: 174px;
+  }
+
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .lg\:gap-x-10 {
+    -moz-column-gap: 2.5rem;
+         column-gap: 2.5rem;
+  }
+
+  .lg\:gap-y-8 {
+    row-gap: 2rem;
   }
 }

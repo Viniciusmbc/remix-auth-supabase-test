@@ -13,20 +13,23 @@ import {
 // Actions
 export const action = async ({ request }) => {
   await authenticator.authenticate("sb", request, {
-    successRedirect: "/dashboard/home",
+    successRedirect: "/dashboard/movies",
     failureRedirect: "/login",
   });
 };
 
 // Loader
 export const loader = async ({ request }) => {
-  await supabaseStrategy.checkSession(request, {
-    successRedirect: "/dashboard/home",
-  });
-
   const session = await sessionStorage.getSession(
     request.headers.get("Cookie")
   );
+
+  const sessionKey = session.get(authenticator.sessionKey);
+  console.log(sessionKey);
+
+  await supabaseStrategy.checkSession(request, {
+    successRedirect: `/dashboard/${sessionKey.user?.id}/home`,
+  });
 
   const error = session.get(authenticator.sessionErrorKey);
 
@@ -52,7 +55,8 @@ export default function Screen() {
           </div>
           <Form
             method="post"
-            className="mx-auto flex flex-col rounded-md bg-semiDarkBlue px-10">
+            className="mx-auto flex flex-col rounded-md bg-semiDarkBlue px-10"
+          >
             <label className="mt-6 text-2xl text-white">Login</label>
             <input
               type="email"
@@ -70,7 +74,8 @@ export default function Screen() {
             />
             <button
               className="mt-10 rounded-md bg-red py-2 hover:bg-white "
-              type="submit">
+              type="submit"
+            >
               {transition.state === "submitting" ? (
                 <LoadingSpinner className="cursor-wait" color={`#FFF`} />
               ) : (
@@ -79,7 +84,7 @@ export default function Screen() {
             </button>
 
             {error?.message && (
-              <div className=" text-red pt-6">
+              <div className=" text-red py-6">
                 <p> {error.message} </p>
               </div>
             )}

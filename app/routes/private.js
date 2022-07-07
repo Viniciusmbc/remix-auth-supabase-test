@@ -12,8 +12,6 @@ export const loader = async ({ request }) => {
     failureRedirect: "/login",
   });
 
-  console.log(session);
-
   return json({ email: session });
 };
 
