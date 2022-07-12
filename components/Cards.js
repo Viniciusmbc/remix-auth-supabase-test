@@ -101,54 +101,52 @@ export default function Cards({
   };
 
   return (
-    <div className=" flex-shrink-0">
-      <div className="relative h-28 md:h-36 lg:h-[174px]">
-        <button
-          onClick={() => handleBookmarked(id)}
-          className=" flex items-center right-2 top-2 absolute bg-darkBlue/50  w-8 h-8 rounded-full z-10 md:right-4 md:top-4"
-        >
-          {isLoading ? (
-            <LoadingSpinner color={"#FFF"} />
-          ) : bookmarkedShowsId.has(id) === true || bookmark ? (
-            <svg
-              className=" mx-auto"
-              width="12"
-              height="14"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="m10.518.75.399 12.214-5.084-4.24-4.535 4.426L.75 1.036l9.768-.285Z"
-                stroke="#FFF"
-                strokeWidth="1.5"
-                fill="#FFF"
-              />
-            </svg>
-          ) : (
-            <svg
-              className=" mx-auto"
-              width="12"
-              height="14"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="m10.518.75.399 12.214-5.084-4.24-4.535 4.426L.75 1.036l9.768-.285Z"
-                stroke="#FFF"
-                strokeWidth="1.5"
-                fill="none"
-              />
-            </svg>
-          )}
-        </button>
-        <img
-          className="rounded"
-          src={`https://kmzgkstraazrxkyxaejh.supabase.co/storage/v1/object/public/thumbnails/${changeImageSrc(
-            changeImageSrc(title)
-          )}/regular/medium.jpg`}
-          alt={`${title} poster`}
-        />
-      </div>
+    <figure className="relative h-28 md:h-36 lg:h-[174px] w-72">
+      <button
+        onClick={() => handleBookmarked(id)}
+        className=" flex items-center right-2 top-2 absolute bg-darkBlue/50  w-8 h-8 rounded-full z-10 md:right-4 md:top-4"
+      >
+        {isLoading ? (
+          <LoadingSpinner color={"#FFF"} />
+        ) : bookmarkedShowsId.has(id) === true || bookmark ? (
+          <svg
+            className=" mx-auto"
+            width="12"
+            height="14"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="m10.518.75.399 12.214-5.084-4.24-4.535 4.426L.75 1.036l9.768-.285Z"
+              stroke="#FFF"
+              strokeWidth="1.5"
+              fill="#FFF"
+            />
+          </svg>
+        ) : (
+          <svg
+            className=" mx-auto"
+            width="12"
+            height="14"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="m10.518.75.399 12.214-5.084-4.24-4.535 4.426L.75 1.036l9.768-.285Z"
+              stroke="#FFF"
+              strokeWidth="1.5"
+              fill="none"
+            />
+          </svg>
+        )}
+      </button>
+      <img
+        className="rounded w-72 overflow-hidden"
+        src={`https://kmzgkstraazrxkyxaejh.supabase.co/storage/v1/object/public/thumbnails/${changeImageSrc(
+          changeImageSrc(title)
+        )}/regular/medium.jpg`}
+        alt={`${title} poster`}
+      />
 
-      <div className="flex items-center mt-2 ">
+      <figcaption className="flex items-center mt-2 ">
         <p className="text-white/75 text-xs">{year}</p>
         <div className=" bg-white rounded-full w-1 h-1 mx-2"></div>
         <div>
@@ -163,8 +161,9 @@ export default function Cards({
         <p className=" text-white/75 ml-2 text-xs">{category}</p>
         <div className=" bg-white rounded-full w-1 h-1 mx-2"></div>
         <p className=" text-white/75 text-xs">{classificao}</p>
-      </div>
-      <p className="text-white text-sm font-medium  mt-1">{title}</p>
-    </div>
+
+        <p className="text-white text-sm font-medium  mt-1">{title}</p>
+      </figcaption>
+    </figure>
   );
 }

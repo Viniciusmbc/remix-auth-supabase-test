@@ -10,30 +10,29 @@ import {
   supabaseStrategy,
 } from "../auth.server";
 
-// Actions
-export const action = async ({ request }) => {
-  await authenticator.authenticate("sb", request, {
-    successRedirect: "/dashboard/movies",
-    failureRedirect: "/login",
-  });
-};
-
 // Loader
 export const loader = async ({ request }) => {
   const session = await sessionStorage.getSession(
     request.headers.get("Cookie")
   );
-
   const sessionKey = session.get(authenticator.sessionKey);
-  console.log(sessionKey);
 
   await supabaseStrategy.checkSession(request, {
-    successRedirect: `/dashboard/${sessionKey.user?.id}/home`,
+    successRedirect: `/dashboard/home`,
+    failureRedirect: "/login",
   });
 
   const error = session.get(authenticator.sessionErrorKey);
 
   return json({ error });
+};
+
+// Actions
+export const action = async ({ request }) => {
+  return authenticator.authenticate("sb", request, {
+    successRedirect: `/dashboard/home`,
+    failureRedirect: "/login",
+  });
 };
 
 export default function Screen() {
