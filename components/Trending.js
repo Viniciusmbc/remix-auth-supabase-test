@@ -4,12 +4,14 @@ import { LoadingSpinner, MoviesIcon, TVIcon } from "./Icons";
 // React Hooks
 import { useState } from "react";
 
+// Function to change name of image src
+import { changeImageSrc } from "utils/changeImageSrc.ts";
+
 export default function Trending({
   year,
   category,
   rating,
   title,
-  image,
   bookmarkShows,
   handleBookmarked,
 }) {
@@ -21,8 +23,7 @@ export default function Trending({
     <div className="relative ml-4 mr-2 w-9/12  max-w-md  flex-shrink-0 ">
       <button
         onClick={() => handleBookmarked(id)}
-        className="  flex items-center right-2 top-2 absolute bg-darkBlue/50  w-8 h-8 rounded-full z-10 md:right-4 md:top-4"
-      >
+        className="  flex items-center right-2 top-2 absolute bg-darkBlue/50  w-8 h-8 rounded-full z-10 md:right-4 md:top-4">
         {isLoading ? (
           <LoadingSpinner color={"#FFF"} />
         ) : bookmarkedShowsId?.has(id) === true || bookmark ? (
@@ -30,8 +31,7 @@ export default function Trending({
             className=" mx-auto"
             width="12"
             height="14"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+            xmlns="http://www.w3.org/2000/svg">
             <path
               d="m10.518.75.399 12.214-5.084-4.24-4.535 4.426L.75 1.036l9.768-.285Z"
               stroke="#FFF"
@@ -44,8 +44,7 @@ export default function Trending({
             className=" mx-auto"
             width="12"
             height="14"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+            xmlns="http://www.w3.org/2000/svg">
             <path
               d="m10.518.75.399 12.214-5.084-4.24-4.535 4.426L.75 1.036l9.768-.285Z"
               stroke="#FFF"
@@ -76,7 +75,13 @@ export default function Trending({
         </p>
       </div>
 
-      <img className="rounded" src={image} alt={`${title} poster`} />
+      <img
+        className="rounded"
+        src={`https://kmzgkstraazrxkyxaejh.supabase.co/storage/v1/object/public/thumbnails/${changeImageSrc(
+          title
+        )}/trending/large.jpg`}
+        alt={`${title} poster`}
+      />
     </div>
   );
 }

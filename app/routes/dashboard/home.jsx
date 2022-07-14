@@ -1,5 +1,5 @@
 // RemixTools
-import { useParams, useLoaderData } from "@remix-run/react";
+import { useMatches, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 
 // Components
@@ -11,7 +11,7 @@ import SearchBar from "components/Searchbar";
 import {useState} from "react"
 
 // Supabase
-import {supabaseClient} from "app/supabase" 
+import {supabaseClient} from "app/supabase";
 
 async function getLoaderData(userId) {
 // Get user bookmarked shows
@@ -38,13 +38,6 @@ export const loader = async ({params}) => {
     .select()
     .eq("isTrending", true);
 
-    // Get user bookmarked shows
-  const { data: bookmarked } = await supabaseClient
-  .from("userfavoriteshows")
-  .select("shows_id, Shows(*)")
-  .eq("user_id", params.userId);
-
-
     if (error) {
         throw new Error(error);
       }
@@ -52,7 +45,6 @@ export const loader = async ({params}) => {
     return json({
         allshows,
         trendings,
-        bookmarked
     }
         
     );
@@ -65,28 +57,17 @@ export default function Home() {
   // Loading data
     const {allshows, trendings, bookmarked} = useLoaderData();
 
+    const rootData = useMatches()[0].data;
+    console.log(rootData.userId)
  
      // If search state is active, show the data
   const checkSearchStatus = (status) => {
     status ? setSearchActive(true) : setSearchActive(false);
   };
 
-  // Function to change titles in images cards src
-  const changeImageSrc = (title) => {
-    if (title === "Earth’s Untouched") {
-      const earthsuntouched = "earths-untouched";
-      return earthsuntouched;
-    }
-    const src = title
-      .replace(/([^\w]+|\s+)/g, "-")
-      .replace("II", "2")
-      .toLowerCase();
-    return src;
-  };
-
-
-    return (
-      <>
+  return (
+      <section>
+       
         <SearchBar
         shows={"movies or TV series"}
         data={allshows}
@@ -97,7 +78,7 @@ export default function Home() {
         <section>
         <h1 className=" pl-4 text-xl text-white mb-4">Trending</h1>
         <div className="flex  w-full overflow-x-auto">
-            {trendings &&
+            {!!trendings &&
               trendings.map(({ title, year, category, rating }, index) => (
                 <Trending
                   key={index}
@@ -105,17 +86,14 @@ export default function Home() {
                   year={year}
                   category={category}
                   rating={rating}
-                  image={`https://kmzgkstraazrxkyxaejh.supabase.co/storage/v1/object/public/thumbnails/${changeImageSrc(
-                    title
-                  )}/trending/large.jpg`}
                 />
               ))}
           </div>
 
-          <h2 className="text-white text-xl ml-4">Recommended for you</h2>
+          <h2 className="text-white mt-10 mb-8 text-xl ml-4">Recommended for you</h2>
 
           <article className=" grid grid-cols-2 mx-4 gap-4 mb-14 md:grid-cols-3  lg:grid-cols-4 lg:gap-x-10 lg:gap-y-8 ">
-          {allshows &&
+          {!!allshows &&
             allshows.map(({ id, title, year, category, rating }) => (
               <Cards
                 bookmarkedShows={bookmarked}
@@ -125,6 +103,7 @@ export default function Home() {
                 year={year}
                 category={category}
                 classificao={rating}
+                userId={rootData.userId}
               />
             ))}
         </article>
@@ -132,7 +111,7 @@ export default function Home() {
       )
         }
  
-      </>
+      </section>
      
      
     )

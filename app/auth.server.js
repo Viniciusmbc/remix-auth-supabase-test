@@ -41,7 +41,7 @@ export const supabaseStrategy = new SupabaseStrategy(
       .then(({ data, error }) => {
         if (error || !data)
           throw new AuthorizationError(
-            error?.message ?? "Please, faça seu login"
+            error?.message ?? "Por favor, faça seu login"
           );
 
         return data;

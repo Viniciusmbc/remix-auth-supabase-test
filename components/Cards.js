@@ -7,6 +7,9 @@ import { supabaseClient } from "app/supabase";
 // Icons
 import { LoadingSpinner } from "./Icons";
 
+// Function to change name of image src
+import { changeImageSrc } from "utils/changeImageSrc.ts";
+
 export default function Cards({
   id,
   title,
@@ -38,8 +41,6 @@ export default function Cards({
     getData();
     setIsLoading(false);
   }, [userId]);
-
-  // console.log(`user: ${session?.user.id ?? "no user"}`);
 
   // If user click on the bookmark button, add the show to the user's bookmarked shows
   const addToBookmarkeds = async (id) => {
@@ -87,22 +88,18 @@ export default function Cards({
     bookmarkedShowsId.has(id) ? removeBookmarkeds(id) : addToBookmarkeds(id);
   };
 
-  // Function to change titles in images cards src
-  const changeImageSrc = (title) => {
-    if (title === "Earth’s Untouched") {
-      const earthsuntouched = "earths-untouched";
-      return earthsuntouched;
-    }
-    const src = title
-      .replace(/([^\w]+|\s+)/g, "-")
-      .replace("II", "2")
-      .toLowerCase();
-    return src;
-  };
-
   return (
     <div className=" flex-shrink-0">
       <div className="relative h-28 md:h-36 lg:h-[174px]">
+        <figure className="block overflow-hidden inset-0 absolute min-w-full min-h-full">
+          <img
+            className=" absolute block object-cover inset-0 rounded min-w-full min-h-full "
+            src={`https://kmzgkstraazrxkyxaejh.supabase.co/storage/v1/object/public/thumbnails/${changeImageSrc(
+              title
+            )}/regular/medium.jpg`}
+            alt={`${title} poster`}
+          />
+        </figure>
         <button
           onClick={() => handleBookmarked(id)}
           className=" flex items-center right-2 top-2 absolute bg-darkBlue/50  w-8 h-8 rounded-full z-10 md:right-4 md:top-4">
@@ -136,18 +133,9 @@ export default function Cards({
             </svg>
           )}
         </button>
-        <figure className="block overflow-hidden inset-0 absolute ">
-          <img
-            className=" absolute block object-cover inset-0 rounded min-w-full min-h-full "
-            src={`https://kmzgkstraazrxkyxaejh.supabase.co/storage/v1/object/public/thumbnails/${changeImageSrc(
-              changeImageSrc(title)
-            )}/regular/medium.jpg`}
-            alt={`${title} poster`}
-          />
-        </figure>
       </div>
 
-      <div className="flex items-center mt-2 ">
+      <div className="flex items-center mt-2">
         <p className="text-white/75 text-xs">{year}</p>
         <div className=" bg-white rounded-full w-1 h-1 mx-2"></div>
         <div>
