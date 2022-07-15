@@ -57,8 +57,9 @@ export default function Home() {
   // Loading data
     const {allshows, trendings, bookmarked} = useLoaderData();
 
-    const rootData = useMatches()[0].data;
-    console.log(rootData.userId)
+    const rootData = useMatches().map(match => match.data)[0];
+    const { tvshows, userId  } = rootData;
+    console.log(tvshows, userId);
  
      // If search state is active, show the data
   const checkSearchStatus = (status) => {
@@ -96,14 +97,13 @@ export default function Home() {
           {!!allshows &&
             allshows.map(({ id, title, year, category, rating }) => (
               <Cards
-                bookmarkedShows={bookmarked}
                 key={id}
                 id={id}
                 title={title}
                 year={year}
                 category={category}
                 classificao={rating}
-                userId={rootData.userId}
+                userId={userId}
               />
             ))}
         </article>

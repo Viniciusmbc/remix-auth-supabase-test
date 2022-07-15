@@ -1,6 +1,8 @@
 // Remix tools
 import { json } from "@remix-run/node";
 import { Form, useLoaderData, Link, useTransition } from "@remix-run/react";
+
+// Icons
 import { LoadingSpinner } from "components/Icons";
 
 // Authenticator
@@ -28,7 +30,7 @@ export const loader = async ({ request }) => {
 // Actions
 export const action = async ({ request }) => {
   return authenticator.authenticate("sb", request, {
-    successRedirect: "/dashboard/home",
+    successRedirect: "/dashboard",
     failureRedirect: "/login",
   });
 };
@@ -71,7 +73,7 @@ export default function Screen() {
             <button
               className="mt-10 rounded-md bg-red py-2 hover:bg-white "
               type="submit"
-              disabled={transition.state === "submiting"}>
+              disabled={transition.state === "submitting"}>
               {transition.state === "submitting" ? (
                 <LoadingSpinner className="cursor-wait" color={`#FFF`} />
               ) : (
@@ -81,7 +83,12 @@ export default function Screen() {
 
             {error?.message && (
               <div className=" text-red py-6">
-                <p> {`Por favor, faça seu login!`} </p>
+                <p>
+                  {" "}
+                  {error.message === "No session data found"
+                    ? `Please, login in your account!`
+                    : error.message}{" "}
+                </p>
               </div>
             )}
           </Form>

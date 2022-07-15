@@ -36,14 +36,41 @@ const session = await sessionStorage.getSession(
 )
 const userId= await session.get(authenticator.sessionKey)?.user?.id
 
-if (session && userId) {
+// Get all shows
+const { data: allshows, error } = await supabaseClient.from("Shows").select();
+
+// Get Tv shows
+const { data: tvshows } = await supabaseClient.from("Shows").select().filter("category", "eq", "TV Series");
+
+ // Get Movies shows
+ const { data: movies } = await supabaseClient
+ .from("Shows")
+ .select()
+ .eq("category", "Movie");
+
+  // Get all Bookmarked shows
+  const { data } = await supabaseClient
+    .from("userfavoriteshows")
+    .select("shows_id, Shows(*)")
+    .eq("user_id", userId);
+
+    const bookmarkedShows = data.map(({ Shows }) => {
+      return Shows;
+    });
+/*
+if (!session && userId) {
   return json({
     userId,
   });
 }
 
+*/
 return json({
-  userId
+  userId,
+  allshows,
+  movies,
+  tvshows,
+  bookmarkedShows,
 })
 
 

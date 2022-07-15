@@ -1,3 +1,16 @@
+// supabase Strategy
+import { supabaseStrategy } from "~/auth.server";
+
+
+export const loader = async ({ request }) => {
+  const session = await supabaseStrategy.checkSession(request, {
+    failureRedirect: "/login",
+    successRedirect: "/dashboard",
+  });
+
+  return session;
+};
+
 export default function Index() {
   return (
     <div>
