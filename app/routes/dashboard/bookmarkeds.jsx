@@ -7,13 +7,33 @@ import Cards from "components/Cards";
 import Title from "components/Title";
 
 // Remix tools
-import { useMatches } from "@remix-run/react";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 
-export default function Bookmarked() {
+// Supabase
+import { supabaseClient } from "app/supabase";
 
- const rootData = useMatches().map(match => match.data)[0];
- const { tvshows, userId, bookmarkedShows  } = rootData;
- const bookmarkedShows = data.map(({ Shows }) => {
+// Authentication
+import { authenticator, sessionStorage } from "~/auth.server";
+
+export const loader = async ({request}) => {
+
+  const sessionActually = await sessionStorage.getSession(
+    request.headers.get("Cookie")
+  )
+  const userId= await sessionActually.get(authenticator.sessionKey)?.user?.id
+ 
+  // Get bookmarked shows
+  const { data, error } = await supabaseClient
+    .from("userfavoriteshows")
+    .select("shows_id, Shows(*)")
+    .eq("user_id", userId);
+
+  if (error) {
+    throw new Error(error);
+  }
+
+  const bookmarkedShows = data?.map(({ Shows }) => {
     return Shows;
   });
 
@@ -25,7 +45,20 @@ export default function Bookmarked() {
     return category === "TV Series";
   });
 
-  console.log(bookmarkedShows.length, bookmarkedTVseries);
+  return json({
+    userId,
+    bookmarkedShows,
+    bookmarkedMovies,
+    bookmarkedTVseries
+  });
+  
+}
+
+export default function Bookmarked() {
+
+  // Bookmarked shows
+  const {bookmarkedShows,   bookmarkedMovies,
+    bookmarkedTVseries, userId} = useLoaderData();
 
   // Search state
   const [searchActive, setSearchActive] = useState(false);
@@ -40,8 +73,10 @@ export default function Bookmarked() {
   };
 
   return (
-    <>
-    
+    <section>
+      
+    {!searchActive && (
+      <>      
       {bookmarkedShows.length === 0 ? (
         <Title title={"You don't have a bookmarked shows!"} />
       ) : (
@@ -97,5 +132,9 @@ export default function Bookmarked() {
         </main>
       )}
     </>
+    )
+    }
+    </section>
+
   );
 }

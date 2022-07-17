@@ -57,7 +57,7 @@ export default function Home() {
   // Loading data
     const {allshows, trendings, bookmarked} = useLoaderData();
 
-    const rootData = useMatches().map(match => match.data)[0];
+    const rootData = useMatches().map(match => match.data)[1];
     const { tvshows, userId  } = rootData;
     console.log(tvshows, userId);
  
@@ -78,7 +78,7 @@ export default function Home() {
       {!searchActive && (
         <section>
         <h1 className=" pl-4 text-xl text-white mb-4">Trending</h1>
-        <div className="flex  w-full overflow-x-auto">
+        <article className="flex  w-full overflow-x-auto">
             {!!trendings &&
               trendings.map(({ title, year, category, rating }, index) => (
                 <Trending
@@ -89,7 +89,7 @@ export default function Home() {
                   rating={rating}
                 />
               ))}
-          </div>
+          </article>
 
           <h2 className="text-white mt-10 mb-8 text-xl ml-4">Recommended for you</h2>
 

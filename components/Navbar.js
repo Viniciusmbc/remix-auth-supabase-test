@@ -18,7 +18,7 @@ export default function Navbar() {
         />
       </svg>
       <div className="flex md:flex-col md:gap-y-10 md:mt-20 ">
-        <NavLink to="/dashboard/home">
+        <NavLink to="/dashboard/">
           <HomeIcon
             style={({ isActive }) => (isActive ? activeStyle : "#5A698F")}
           />

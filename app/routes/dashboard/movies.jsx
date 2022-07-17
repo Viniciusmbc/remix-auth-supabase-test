@@ -19,7 +19,7 @@ export default function Movies() {
     }
   };
 
-  const rootData = useMatches().map(match => match.data)[0];
+  const rootData = useMatches().map(match => match.data)[1];
   const {allshows, movies, userId  } = rootData;
 
 

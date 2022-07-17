@@ -10,6 +10,9 @@ import { LoadingSpinner } from "./Icons";
 // Function to change name of image src
 import { changeImageSrc } from "utils/changeImageSrc.ts";
 
+// Remix tools
+import { Form } from "@remix-run/react";
+
 export default function Cards({
   id,
   title,
@@ -91,9 +94,9 @@ export default function Cards({
   return (
     <div className=" flex-shrink-0">
       <div className="relative h-28 md:h-36 lg:h-[174px]">
-        <figure className="block overflow-hidden inset-0 absolute min-w-full min-h-full">
+        <figure className="block overflow-y-hidden inset-0 absolute min-w-full min-h-full">
           <img
-            className=" absolute block object-cover inset-0 rounded min-w-full min-h-full "
+            className=" block inset-0 rounded min-w-full min-h-full "
             src={`https://kmzgkstraazrxkyxaejh.supabase.co/storage/v1/object/public/thumbnails/${changeImageSrc(
               title
             )}/regular/medium.jpg`}
