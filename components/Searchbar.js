@@ -1,7 +1,13 @@
 import { useRef, useState, useCallback } from "react";
 import Cards from "./Cards";
 
-export default function SearchBar({ shows, data, onFocusHandler, title }) {
+export default function SearchBar({
+  shows,
+  data,
+  onFocusHandler,
+  title,
+  userId,
+}) {
   const searchRef = useRef(null);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(false);
@@ -80,11 +86,12 @@ export default function SearchBar({ shows, data, onFocusHandler, title }) {
             {results.map(({ title, id, year, category, rating }) => (
               <Cards
                 key={id}
-                bookmark={false}
+                id={id}
                 title={title}
                 year={year}
                 category={category}
                 classificao={rating}
+                userId={userId}
               />
             ))}
           </section>

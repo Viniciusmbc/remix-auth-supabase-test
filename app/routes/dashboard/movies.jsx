@@ -2,11 +2,35 @@
 import {useState } from "react";
 
 // Remix tools
-import { useMatches } from "@remix-run/react";
+import { useLoaderData, useMatches } from "@remix-run/react";
+import { json } from "@remix-run/node";
 
 // Components
 import Cards from "components/Cards";
 import SearchBar from "components/Searchbar";
+
+// Supabase
+import { supabaseClient } from "~/supabase";
+
+export const loader = async () => {
+
+    // Get Movies
+    const { data: movies, error } = await supabaseClient
+    .from("Shows")
+    .select()
+    .eq("category", "Movie");
+   
+   if(error){
+     return json({
+       error
+     })
+   }
+   
+   return json({ 
+     movies,
+   })
+   
+ };
 
 export default function Movies() {
   // Search state
@@ -19,18 +43,21 @@ export default function Movies() {
     }
   };
 
-  const rootData = useMatches().map(match => match.data)[1];
-  const {allshows, movies, userId  } = rootData;
+  const {movies} = useLoaderData()
+  console.log(movies)
 
+  const rootData = useMatches().map(match => match.data)[1];
+  const { userId  } = rootData;
 
   return (
    
       <section className=" w-full">
         <SearchBar
           shows={"Movies"}
-          data={allshows}
+          data={movies}
           onFocusHandler={(status) => checkSearchStatus(status)}
           title={"Movies"}
+          userId={userId}
         />
 
         {!searchActive && (

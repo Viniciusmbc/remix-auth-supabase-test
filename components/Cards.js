@@ -10,9 +10,6 @@ import { LoadingSpinner } from "./Icons";
 // Function to change name of image src
 import { changeImageSrc } from "utils/changeImageSrc.ts";
 
-// Remix tools
-import { Form } from "@remix-run/react";
-
 export default function Cards({
   id,
   title,
@@ -57,11 +54,11 @@ export default function Cards({
       .single();
     if (error) {
       console.log(`Error: ${error}`);
-    } else {
-      setBookmarkedShowsId((prev) => new Set(prev).add(data.shows_id));
-      setIsLoading(false);
-      setBookmark(true);
     }
+
+    setBookmarkedShowsId((prev) => new Set(prev).add(data.shows_id));
+    setIsLoading(false);
+    setBookmark(true);
   };
 
   // If user click on the bookmark button, remove the show from the user's bookmarked shows
@@ -74,15 +71,14 @@ export default function Cards({
       .eq("shows_id", id);
     if (error) {
       console.log(`Error: ${error}`);
-    } else {
-      setBookmarkedShowsId((prev) => {
-        const next = new Set(prev);
-        next.delete(id);
-        return next;
-      });
-      setIsLoading(false);
-      setBookmark(false);
     }
+    setBookmarkedShowsId((prev) => {
+      const next = new Set(prev);
+      next.delete(id);
+      return next;
+    });
+    setIsLoading(false);
+    setBookmark(false);
   };
 
   // If user click on the bookmark button, add the show to the user's bookmarked shows or delete it from the user's bookmarked shows
@@ -105,7 +101,8 @@ export default function Cards({
         </figure>
         <button
           onClick={() => handleBookmarked(id)}
-          className=" flex items-center right-2 top-2 absolute bg-darkBlue/50  w-8 h-8 rounded-full z-10 md:right-4 md:top-4">
+          className=" flex items-center right-2 top-2 absolute bg-darkBlue/50  w-8 h-8 rounded-full z-10 md:right-4 md:top-4"
+        >
           {isLoading ? (
             <LoadingSpinner color={"#FFF"} />
           ) : bookmarkedShowsId.has(id) === true || bookmark ? (
@@ -113,7 +110,8 @@ export default function Cards({
               className=" mx-auto"
               width="12"
               height="14"
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="m10.518.75.399 12.214-5.084-4.24-4.535 4.426L.75 1.036l9.768-.285Z"
                 stroke="#FFF"
@@ -126,7 +124,8 @@ export default function Cards({
               className=" mx-auto"
               width="12"
               height="14"
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="m10.518.75.399 12.214-5.084-4.24-4.535 4.426L.75 1.036l9.768-.285Z"
                 stroke="#FFF"

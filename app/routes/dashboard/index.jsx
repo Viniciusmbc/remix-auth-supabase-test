@@ -13,27 +13,9 @@ import {useState} from "react"
 // Supabase
 import {supabaseClient} from "app/supabase";
 
-async function getLoaderData(userId) {
-// Get user bookmarked shows
-  const { data: bookmarked, error } = await supabaseClient
-  .from("userfavoriteshows")
-  .select("shows_id, Shows(*)")
-  .eq("user_id", userId);
-
-  if(error){
-      throw new Error(error)
-  }
-
-    return bookmarked;
-  }
-
-export const loader = async ({params}) => {
-
-     // Get all shows
-  const { data: allshows, error } = await supabaseClient.from("Shows").select();
-
+export const loader = async () => {
   // Get trending shows
-  const { data: trendings } = await supabaseClient
+  const { data: trendings, error } = await supabaseClient
     .from("Shows")
     .select()
     .eq("isTrending", true);
@@ -43,7 +25,6 @@ export const loader = async ({params}) => {
       }
 
     return json({
-        allshows,
         trendings,
     }
         
@@ -55,11 +36,12 @@ export default function Home() {
   const [searchActive, setSearchActive] = useState(false);
 
   // Loading data
-    const {allshows, trendings, bookmarked} = useLoaderData();
+    const { trendings} = useLoaderData();
 
+    // Get
     const rootData = useMatches().map(match => match.data)[1];
-    const { tvshows, userId  } = rootData;
-    console.log(tvshows, userId);
+    const {allshows,  userId  } = rootData;
+    console.log( userId);
  
      // If search state is active, show the data
   const checkSearchStatus = (status) => {
@@ -73,6 +55,7 @@ export default function Home() {
         shows={"movies or TV series"}
         data={allshows}
         onFocusHandler={(status) => checkSearchStatus(status)}
+        userId={userId}
       />
 
       {!searchActive && (

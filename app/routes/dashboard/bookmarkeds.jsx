@@ -73,23 +73,21 @@ export default function Bookmarked() {
   };
 
   return (
-    <section>
-      
-    {!searchActive && (
-      <>      
+    <>    
       {bookmarkedShows.length === 0 ? (
         <Title title={"You don't have a bookmarked shows!"} />
       ) : (
-        <main className=" w-full">
+       
+        <section className=" w-full">
           <SearchBar
             shows={"bookmarked shows"}
             data={bookmarkedShows}
             onFocusHandler={(status) => checkSearchStatus(status)}
           />
-          {bookmarkedMovies.length > 0 && (
+          {!searchActive && bookmarkedMovies.length > 0 && (
             <>
               <Title title={"Bookmarked Movies"} />
-              <section className=" grid grid-cols-2 mx-4 gap-4 md:grid-cols-3  lg:grid-cols-4 lg:gap-x-10 lg:gap-y-8 ">
+              <article className=" grid grid-cols-2 mx-4 gap-4 md:grid-cols-3  lg:grid-cols-4 lg:gap-x-10 lg:gap-y-8 ">
                 {bookmarkedMovies.map(
                   ({ title, year, category, rating, id }, index) => (
                     <Cards
@@ -103,16 +101,16 @@ export default function Bookmarked() {
                     />
                   )
                 )}
-              </section>
+              </article>
             </>
           )}
-          {bookmarkedTVseries.length > 0 && (
+          {!searchActive && bookmarkedTVseries.length > 0 && (
             <>
               <Title
                 title={"Bookmarked TV Series"}
                 bookmarkedtvSeries={bookmarkedMovies.length > 0 ? true : false}
               />
-              <section className=" grid grid-cols-2 mx-4 gap-4 md:grid-cols-3  lg:grid-cols-4 lg:gap-x-10 lg:gap-y-8 ">
+              <article className=" grid grid-cols-2 mx-4 gap-4 md:grid-cols-3  lg:grid-cols-4 lg:gap-x-10 lg:gap-y-8 ">
                 {bookmarkedTVseries.map(
                   ({ title, year, category, rating, id }, index) => (
                     <Cards
@@ -126,15 +124,15 @@ export default function Bookmarked() {
                     />
                   )
                 )}
-              </section>
+              </article>
             </>
           )}
-        </main>
+        </section>
       )}
-    </>
+
     )
-    }
-    </section>
+    
+    </>
 
   );
 }

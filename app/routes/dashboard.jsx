@@ -25,7 +25,7 @@ export const loader = async ({ request }) => {
   const sessionActually = await sessionStorage.getSession(
     request.headers.get("Cookie")
   )
-  const userId= await sessionActually.get(authenticator.sessionKey)?.user?.id
+  const userId = await sessionActually.get(authenticator.sessionKey)?.user?.id
   
   // Get all shows
   const { data: allshows, error } = await supabaseClient.from("Shows").select();

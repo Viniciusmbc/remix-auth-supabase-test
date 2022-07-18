@@ -1,14 +1,13 @@
-// Nextjs
-import { NavLink } from "@remix-run/react";
+// Remix Tools
+import { Link, useMatches } from "@remix-run/react";
 
 // Icons
 import { HomeIcon, MoviesIcon, TVIcon, BookmarkIcon } from "./Icons";
 
 export default function Navbar() {
-  const activeStyle = {
-    fill: "#FFF",
-  };
+  const matches = useMatches().map(({ pathname }) => pathname);
 
+  console.log(matches[2]);
   return (
     <nav className="flex items-center justify-between bg-semiDarkBlue py-5 px-4 h-1/4 md:flex-col md:ml-8  md:rounded-2xl md:justify-start md:mr-9 md:h-[91vh] md:mt-8 ">
       <svg width="33" height="27" xmlns="http://www.w3.org/2000/svg">
@@ -18,26 +17,26 @@ export default function Navbar() {
         />
       </svg>
       <div className="flex md:flex-col md:gap-y-10 md:mt-20 ">
-        <NavLink to="/dashboard/">
-          <HomeIcon
-            style={({ isActive }) => (isActive ? activeStyle : "#5A698F")}
-          />
-        </NavLink>
-        <NavLink to="/dashboard/movies">
+        <Link to="/dashboard/">
+          <HomeIcon color={matches[2] === "/dashboard/" ? "#FFF" : "#5A698F"} />
+        </Link>
+        <Link to="movies">
           <MoviesIcon
-            style={({ isActive }) => (isActive ? activeStyle : "#5A698F")}
+            color={matches[2] === "/dashboard/movies" ? "#FFF" : "#5A698F"}
           />
-        </NavLink>
-        <NavLink to="/dashboard/tvseries/">
+        </Link>
+        <Link to="tvseries">
           <TVIcon
-            style={({ isActive }) => (isActive ? activeStyle : "#5A698F")}
+            color={matches[2] === "/dashboard/tvseries" ? "#FFF" : "#5A698F"}
           />
-        </NavLink>
-        <NavLink to="/dashboard/bookmarkeds/">
+        </Link>
+        <Link to="/dashboard/bookmarkeds/">
           <BookmarkIcon
-            style={({ isActive }) => (isActive ? activeStyle : "#5A698F")}
+            color={
+              matches[2] === "/dashboard/bookmarkeds/" ? "#FFF" : "#5A698F"
+            }
           />
-        </NavLink>
+        </Link>
       </div>
 
       <div className=" md:mt-auto"></div>

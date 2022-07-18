@@ -22,7 +22,7 @@ export default function TVSeries() {
   };
 
   const rootData = useMatches().map(match => match.data)[1];
-  const {allshows, tvshows, userId  } = rootData;
+  const { tvshows, userId  } = rootData;
 
  
   return (
@@ -30,14 +30,15 @@ export default function TVSeries() {
      
       <SearchBar
         shows={"TV Series"}
-        data={allshows}
+        data={tvshows}
         onFocusHandler={(status) => checkSearchStatus(status)}
         title={"TV Series"}
+        userId={userId}
       />
 
       {!searchActive && (
         <section className=" grid grid-cols-2 mx-4 gap-4 mb-14 md:grid-cols-3  lg:grid-cols-4 lg:gap-x-10 lg:gap-y-8 ">
-          {tvshows.map(({ title, year, category, id, rating }) => (
+          {!!tvshows && tvshows.map(({ title, year, category, id, rating }) => (
             <Cards
               key={id}
               id={id}
